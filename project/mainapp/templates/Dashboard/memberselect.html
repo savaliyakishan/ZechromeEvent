@@ -1,0 +1,30 @@
+{% extends './base.html' %}
+
+{% block start %}
+<br>
+<h2 class="text-center">Rendom Selected Member</h2>
+<br>
+<div class="container">
+    <table style="width: 100%; boreder:2px solid">
+      <tbody>
+        {% if selectedMember %}
+            <tr>
+                <td>Id</td>
+                <td>{{selectedMember.id}}</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>{{selectedMember.name}}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{selectedMember.email}}</td>
+            </tr>
+            <tr>
+                <td>approve </td>
+                <td><a href="{{selectedMember.id}}">Approve</a></td>
+            </tr>
+        {% endif %}
+      </tbody>
+    </table>
+{% endblock  %}

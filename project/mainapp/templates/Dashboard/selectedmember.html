@@ -1,0 +1,71 @@
+{% extends './base.html' %}
+
+{% block start %}
+<br>
+<h2 class="text-center">Selected Member</h2>
+<br>
+<div class="container">
+    <table style="width: 100%; boreder:2px solid">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Topic</th>
+                <th>SeminarDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if selectedMember %}
+                {% for i in selectedMember %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ i.memberId.name }}</td>
+                        <td>{{ i.memberId.email }}</td>
+                        <td>{% if i.topicname == None %}<a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatetopicmodel" class="btntopicupdate">Add Topic</a>{% else %} {{ i.topicname }}{% endif %}</td>
+                        <td>{{ i.SeminarDate }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div class="modal fade" id="Updatetopicmodel" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Topic</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="" method="post" class="row g-3 needs-validation" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" id="validationCustomid" value="" name="selectedmemberid">
+                    <div class="col-md-12">
+                      <label for="validationCustomTopicName" class="form-label">Topic Name</label>
+                      <div class="input-group has-validation">
+                        <input type="text" class="form-control" id="validationCustomTopicName" aria-describedby="inputGroupPrepend" required name="topicName">
+                        <div class="invalid-feedback">
+                          Please Enter a TopicName.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <button class="btn btn-primary" type="submit">Add Topic</button>
+                    </div>
+                  </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        $('.btntopicupdate').click(function() {
+            $('#validationCustomUsername').val($(this).attr("data-name"))
+            $('#validationCustomid').val($(this).attr("data-id"))
+        });
+          
+      </script>
+{% endblock  %}

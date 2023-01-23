@@ -1,0 +1,27 @@
+
+
+<form action="/Dashboard/ragister/" method="post" class="row g-3 needs-validation" novalidate>
+    {% csrf_token %}
+    <div class="col-md-12">
+      <label for="validationCustomUsername" class="form-label">Username</label>
+      <div class="input-group has-validation">
+        <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required name="memberName">
+        <div class="invalid-feedback">
+          Please Enter a username.
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <label for="validationCustomEmail" class="form-label">Email</label>
+      <div class="input-group has-validation">
+        <input type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend" required name="memberEmail">
+        <div class="invalid-feedback">
+          Please Enter a Email.& Valid Email
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button class="btn btn-primary" type="submit">Add Member</button>
+    </div>
+  </form>
+
