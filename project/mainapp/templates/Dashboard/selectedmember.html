@@ -13,6 +13,7 @@
                 <th>Email</th>
                 <th>Topic</th>
                 <th>SeminarDate</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -24,11 +25,16 @@
                         <td>{{ i.memberId.email }}</td>
                         <td>{% if i.topicname == None %}<a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatetopicmodel" class="btntopicupdate">Add Topic</a>{% else %} {{ i.topicname }}{% endif %}</td>
                         <td>{{ i.SeminarDate }}</td>
+                        <td><a href="/Dashboard/selectedmember/delete/{{ i.id }}">Delete</a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
         </tbody>
     </table>
+
+    <button type="button" class="btn btn-primary" >
+      <a href="/Dashboard/choose/" class="text-light">Select Member</a>
+    </button>
 
     <div class="modal fade" id="Updatetopicmodel" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
         <div class="modal-dialog">

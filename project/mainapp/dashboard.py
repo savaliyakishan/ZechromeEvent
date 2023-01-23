@@ -10,7 +10,7 @@ def Home(request):
         return render(request,'Dashboard/home.html')
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
 
 def ragister(request):
     if request.user.is_superuser == True:
@@ -29,7 +29,7 @@ def ragister(request):
         return render(request,'Dashboard/home.html')
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
     
 def viewmember(request):
     if request.user.is_superuser == True:
@@ -40,7 +40,7 @@ def viewmember(request):
         return render(request,'Dashboard/viewmember.html',contex)
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
     
 def update(request):
     if request.user.is_superuser == True:
@@ -60,7 +60,7 @@ def update(request):
         return render(request,'Dashboard/home.html')
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
 
 def delete(request, id=None):
     if request.user.is_superuser == True:
@@ -75,38 +75,29 @@ def delete(request, id=None):
         return redirect('Dashboard-view')
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
     
 def chooseMember(request,id=None):
     if request.user.is_superuser == True:
-        if id is not None:
-            memberobj = member.objects.get(id=id)
-            memberobj.selectedstatus = True
-            memberobj.save()
-            today = datetime.date.today()
-            next_date = today + datetime.timedelta((calendar.SATURDAY-today.weekday()) % 7 )
-            selectedmember.objects.create(
-                memberId=memberobj,
-                SeminarDate=next_date
-            )
-            messages.success(request,"Selected Member")
-            return redirect('Dashboard-Home')
         if request.method == "GET":
             today = datetime.date.today()
             next_date = today + datetime.timedelta((calendar.SATURDAY-today.weekday()) % 7 )
             selectedmemberData = selectedmember.objects.filter(SeminarDate=next_date)
             if len(selectedmemberData) >= 5:
-                messages.info(request,"No Memberselected")
-                return redirect('Dashboard-Home')
+                messages.info(request,"No Member selected")
+                return redirect('Dashboard-Selected-Member')
             memberData = member.objects.filter(selectedstatus=False).order_by('id')
             random_member = random.choice(memberData)
-            context= {
-                "selectedMember":random_member
-            }
-        return render(request,'Dashboard/memberselect.html',context)
+            random_member.selectedstatus = True
+            random_member.save()
+            selectedmember.objects.create(
+                memberId=random_member,
+                SeminarDate=next_date
+            )
+        return redirect('Dashboard-Selected-Member')
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
     
 def selectedmemberview(request):
     if request.user.is_superuser == True:
@@ -130,4 +121,23 @@ def selectedmemberview(request):
         return render(request,'Dashboard/selectedmember.html',context)
     else:
         messages.error(request,"Bed-Request?")
-        return redirect('Not-Found')
+        return redirect('Login')
+    
+def selectedMemberDelete(request,id=None):
+    if request.user.is_superuser == True:
+        if id is not None:
+            selectedMemberObj = selectedmember.objects.filter(id=id)
+            if len(selectedMemberObj) == 1:
+                member.objects.filter(id=selectedMemberObj[0].memberId.id).update(
+                    selectedstatus=False
+                )
+                selectedMemberObj[0].delete()
+                return redirect('Dashboard-Selected-Member')
+            else:
+                messages.error(request,"Pelase Enter Valid Id")
+                return redirect('Dashboard-Selected-Member')
+        else:
+            return redirect('Dashboard-Selected-Member')
+    else:
+        messages.error(request,"Bed-Request?")
+        return redirect('Login')
