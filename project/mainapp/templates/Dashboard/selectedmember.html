@@ -1,46 +1,56 @@
 {% extends './base.html' %}
 
 {% block start %}
+
+<button type="button" class="btn btn-primary" >
+  <a href="/dashboard/deletedmember/" class="text-light">Deleted Member</a>
+</button>
+
+<button class="btn btn-danger" id="errorAlert">clear All Data</button>
+
 <br>
 <h2 class="text-center">Selected Member</h2>
 <br>
+<button type="button" class="btn btn-primary" >
+  <a href="/dashboard/choose/" class="text-light">Select Member</a>
+</button>
 <div class="container">
     <table style="width: 100%; boreder:2px solid">
         <thead>
             <tr>
                 <th>No</th>
+                <th>SeminarDate</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Topic</th>
-                <th>SeminarDate</th>
+                <th>Topic Update</th>
                 <th>Delete</th>
+                <th>Done</th>
             </tr>
         </thead>
         <tbody>
             {% if selectedMember %}
                 {% for i in selectedMember %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                      <td>{{forloop.counter}}</td>
+                      <td>{{ i.seminarDate }}</td>
                         <td>{{ i.memberId.name }}</td>
                         <td>{{ i.memberId.email }}</td>
-                        <td>{% if i.topicname == None %}<a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatetopicmodel" class="btntopicupdate">Add Topic</a>{% else %} {{ i.topicname }}{% endif %}</td>
-                        <td>{{ i.SeminarDate }}</td>
-                        <td><a href="/Dashboard/selectedmember/delete/{{ i.id }}">Delete</a></td>
+                        <td>{% if i.topicName == None %}<a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd">Add Topic</a>{% else %} {{ i.topicName }} {% endif %}</td>
+                        <td>{% if i.topicName != None %}<a data-id='{{i.id}}' data-topic='{{i.topicName}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd">Update Topic</a>{% else %} - {% endif %}</td>
+                        <td><a href="/dashboard/selectedmember/delete/{{ i.id }}">Delete</a></td>
+                        <td>{% if i.topicName != None %}<a href="/dashboard/selectedmember/done/{{ i.id }}" class="btntopicadd">Done</a>{% else %} - {% endif %}</a></td>
                     </tr>
                 {% endfor %}
             {% endif %}
         </tbody>
     </table>
-
-    <button type="button" class="btn btn-primary" >
-      <a href="/Dashboard/choose/" class="text-light">Select Member</a>
-    </button>
-
-    <div class="modal fade" id="Updatetopicmodel" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+</div>
+    <div class="modal fade" id="Addtopicmodel" tabindex="-1" aria-labelledby="Addtopicmodel"  aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Topic</h5>
+              <h5 class="modal-title" id="Addtopicmodelhead">Add Topic</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -50,14 +60,14 @@
                     <div class="col-md-12">
                       <label for="validationCustomTopicName" class="form-label">Topic Name</label>
                       <div class="input-group has-validation">
-                        <input type="text" class="form-control" id="validationCustomTopicName" aria-describedby="inputGroupPrepend" required name="topicName">
+                        <input type="text" class="form-control" id="validationCustomTopicName" aria-describedby="inputGroupPrepend" value="" required name="topicName">
                         <div class="invalid-feedback">
                           Please Enter a TopicName.
                         </div>
                       </div>
                     </div>
                     <div class="col-md-12">
-                      <button class="btn btn-primary" type="submit">Add Topic</button>
+                      <button class="btn btn-primary" id="submitbtn" type="submit">Add Topic</button>
                     </div>
                   </form>
             </div>
@@ -66,12 +76,34 @@
             </div>
           </div>
         </div>
-      </div>
-      <script>
-        $('.btntopicupdate').click(function() {
-            $('#validationCustomUsername').val($(this).attr("data-name"))
+        <script>
+          $('.btntopicadd').click(function() {
             $('#validationCustomid').val($(this).attr("data-id"))
-        });
+            $('#validationCustomTopicName').val($(this).attr("data-topic"))
+            if ($(this).attr("data-topic")) {
+              $('#Addtopicmodelhead').html("Update Topic")
+              $('#submitbtn').html("Update Topic")
+            }else{
+              $('#Addtopicmodelhead').html("Add Topic")
+              $('#submitbtn').html("Add Topic")
+            }
+          });
           
-      </script>
+        </script>
+    </div>
+    <script>
+      document.getElementById('errorAlert').addEventListener('click', function () {
+        Swal.fire({
+            icon: 'info',
+            title: 'Oops...',
+            text: 'All Data Remove Please Confirmed..'
+        }).then(okay => {
+          if (okay['isConfirmed']) {
+            window.location.href = "/dashboard/selectedmember/clearall/";
+          }else{
+            window.location.href = "";
+          }
+        });
+    });
+    </script>
 {% endblock  %}

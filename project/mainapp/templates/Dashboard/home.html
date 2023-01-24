@@ -6,10 +6,13 @@
     Add Member
   </button>
 <button type="button" class="btn btn-primary" >
-    <a href="/Dashboard/view/" class="text-light">ViewMember</a>
+    <a href="/dashboard/view/" class="text-light">ViewMember</a>
 </button>
 <button type="button" class="btn btn-primary" >
-    <a href="/Dashboard/selectedmember/view/" class="text-light">View Select Member</a>
+    <a href="/dashboard/selectedmember/view/" class="text-light">View Select Member</a>
+</button>
+<button type="button" class="btn btn-primary" >
+    <a href="/dashboard/history/" class="text-light">History</a>
 </button>
   
 
@@ -24,7 +27,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/Dashboard/ragister/" method="post" class="row g-3 needs-validation" novalidate>
+            <form action="/dashboard/ragister/" method="post" class="row g-3 needs-validation" novalidate>
                 {% csrf_token %}
                 <div class="col-md-12">
                   <label for="validationCustomUsername" class="form-label">Username</label>

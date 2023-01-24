@@ -1,15 +1,13 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,logout,login
-from django.contrib.auth.models import User
 from django.contrib import messages
 from .models import *
 import random,datetime,calendar
 
-def Home(request):
+def home(request):
     if request.user.is_superuser == True:
         return render(request,'Dashboard/home.html')
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
 
 def ragister(request):
@@ -18,28 +16,28 @@ def ragister(request):
             membername = request.POST['memberName']
             email = request.POST['memberEmail']
             try:
-                member.objects.create(
+                MemberInfo.objects.create(
                     name = membername,
                     email = email
                 )
-                messages.success(request,"Add Member")
+                messages.success(request,"Add Member Succeed.")
             except Exception as ex:
                 messages.error(request,f"{ex}")
             return redirect('Dashboard-Home')
         return render(request,'Dashboard/home.html')
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
     
 def viewmember(request):
     if request.user.is_superuser == True:
-        memberData = member.objects.all().order_by('id')
+        memberdata = MemberInfo.objects.all().order_by('id')
         contex={
-            'memberData':memberData
+            'memberData':memberdata
         }
         return render(request,'Dashboard/viewmember.html',contex)
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
     
 def update(request):
@@ -48,55 +46,61 @@ def update(request):
             id = request.POST['memberid']
             membername = request.POST['memberName']
             email = request.POST['memberEmail']
-            memberData = member.objects.get(id=id)
+            memberdata = MemberInfo.objects.get(id=id)
             try:
-                memberData.name = membername
-                memberData.email = email
-                memberData.save()
-                messages.success(request,"update Member")
+                memberdata.name = membername
+                memberdata.email = email
+                memberdata.save()
+                messages.success(request,"Update Member Succeed.")
             except Exception as ex:
                 messages.error(request,f"{ex}")
             return redirect('Dashboard-view')
         return render(request,'Dashboard/home.html')
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
 
 def delete(request, id=None):
     if request.user.is_superuser == True:
         if id is not None:
             try:
-                member.objects.get(id=id).delete()
-                messages.success(request,"member Delete")
+                MemberInfo.objects.get(id=id).delete()
+                messages.success(request,"Member Delete Succeed.")
             except Exception as ex:
                 messages.error(request,"User Dose Not Exist.")
         else:
-            messages.error(request,"pelse select member")
+            messages.error(request,"Pelase Select Member.")
         return redirect('Dashboard-view')
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
     
-def chooseMember(request,id=None):
+def choosemember(request,id=None):
     if request.user.is_superuser == True:
-        if request.method == "GET":
+        dayName = datetime.datetime.today().strftime("%A")
+        if request.method == "GET" :
             today = datetime.date.today()
             next_date = today + datetime.timedelta((calendar.SATURDAY-today.weekday()) % 7 )
-            selectedmemberData = selectedmember.objects.filter(SeminarDate=next_date)
-            if len(selectedmemberData) >= 5:
-                messages.info(request,"No Member selected")
+            selectedmemberdata = SelectedMember.objects.filter(seminarDate=next_date,activeStatus=True)
+            if len(selectedmemberdata) >= 5:
+                messages.info(request,"No Member Selected")
                 return redirect('Dashboard-Selected-Member')
-            memberData = member.objects.filter(selectedstatus=False).order_by('id')
-            random_member = random.choice(memberData)
-            random_member.selectedstatus = True
+            memberdata = MemberInfo.objects.filter(selectedStatus=False).order_by('id')
+            if len(memberdata) == 0:
+                messages.info(request,"Not Avilable Member.")
+                return redirect('Dashboard-Selected-Member')
+            random_member = random.choice(memberdata)
+            random_member.selectedStatus = True
             random_member.save()
-            selectedmember.objects.create(
+            SelectedMember.objects.create(
                 memberId=random_member,
-                SeminarDate=next_date
+                seminarDate=next_date
             )
+        else:
+            messages.info(request,'Only Saturday Run.')
         return redirect('Dashboard-Selected-Member')
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
     
 def selectedmemberview(request):
@@ -104,40 +108,81 @@ def selectedmemberview(request):
         if request.method == "POST":
             try:
                 id = request.POST['selectedmemberid']
-                topicName = request.POST['topicName']
-                selectedmember.objects.filter(id=id).update(
-                    topicname=topicName
+                topic_name = request.POST['topicName']
+                SelectedMember.objects.filter(id=id).update(
+                    topicName=topic_name
                 )
-                messages.success(request,"Topic  Added..")
+                messages.success(request,"Topic Add Succeed.")
             except Exception as Ex:
                 messages.error(request,"Topic Already Added..")
             return redirect('Dashboard-Selected-Member')
         today = datetime.date.today()
         next_date = today + datetime.timedelta((calendar.SATURDAY-today.weekday()) % 7 )
-        selectedmemberData = selectedmember.objects.filter(SeminarDate=next_date).order_by('id')
+        selectedmemberdata = SelectedMember.objects.filter(seminarDate=next_date,activeStatus='True').order_by('id')
         context= {
-                "selectedMember":selectedmemberData
+                "selectedMember":selectedmemberdata,
             }
         return render(request,'Dashboard/selectedmember.html',context)
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
     
-def selectedMemberDelete(request,id=None):
+def  selectedmemberdelete(request,id=None):
     if request.user.is_superuser == True:
         if id is not None:
-            selectedMemberObj = selectedmember.objects.filter(id=id)
-            if len(selectedMemberObj) == 1:
-                member.objects.filter(id=selectedMemberObj[0].memberId.id).update(
-                    selectedstatus=False
-                )
-                selectedMemberObj[0].delete()
+            selectedmemberobj = SelectedMember.objects.filter(id=id)
+            if len(selectedmemberobj) == 1:
+                selectedmemberobj[0].activeStatus = False
+                selectedmemberobj[0].save()
+                DeleteSelectedMember.objects.create(deletedMemberObj = selectedmemberobj[0])
                 return redirect('Dashboard-Selected-Member')
             else:
-                messages.error(request,"Pelase Enter Valid Id")
+                messages.error(request,"Pelase Enter Valid Id.")
                 return redirect('Dashboard-Selected-Member')
         else:
             return redirect('Dashboard-Selected-Member')
     else:
-        messages.error(request,"Bed-Request?")
+        messages.error(request,"Permission Denied,Login Required...")
+        return redirect('Login')
+    
+
+def selectedmemberdone(request,id=None):
+    if request.user.is_superuser == True:
+        if id is not None:
+            selectedmemberobj = SelectedMember.objects.filter(id=id)
+            if len(selectedmemberobj) == 1:
+                selectedmemberobj[0].activeStatus = False
+                selectedmemberobj[0].save()
+                History.objects.create(
+                    memberName = selectedmemberobj[0].memberId.name,
+                    memberEmail = selectedmemberobj[0].memberId.email,
+                    seminarDate = selectedmemberobj[0].seminarDate,
+                    topicName = selectedmemberobj[0].topicName,
+                )
+                return redirect('Dashboard-Selected-Member')
+            else:
+                messages.error(request,"Pelase Enter Valid Id.")
+                return redirect('Dashboard-Selected-Member')
+        else:
+            return redirect('Dashboard-Selected-Member')
+    else:
+        messages.error(request,"Permission Denied,Login Required...")
+        return redirect('Login')
+    
+def restartprogram(request):
+    if request.user.is_superuser == True:
+            selectedmemberobj = SelectedMember.objects.all()
+            memberobj = MemberInfo.objects.all()
+            if len(selectedmemberobj) > 0:
+                for i in selectedmemberobj:
+                    i.delete()
+                for j in memberobj:
+                    j.selectedStatus = False
+                    j.save()
+                return redirect('Dashboard-Selected-Member')
+            else:
+                messages.info(request,"No Record Found.")
+                return redirect('Dashboard-Home')
+    else:
+        messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')

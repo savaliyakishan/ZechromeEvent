@@ -21,9 +21,9 @@
             <td>{{i.id}}</td>
             <td>{{i.name}}</td>
             <td>{{i.email}}</td>
-            <td>{{i.selectedstatus}}</td>
-            <td><a class="update" class="text-decoration-none text-dark font-weight-bold" data-name='{{i.name}}' data-email='{{i.email}}' data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatemodel" id="btnupdate"><i class="fa fa-pencil p-3" aria-hidden="true"></i></a></td>
-            <td><a class="text-decoration-none text-dark font-weight-bold" href="/Dashboard/delete/{{i.id}}"><i class="fa fa-trash-o p-3" aria-hidden="true"></i></a></td>
+            <td>{{i.selectedStatus}}</td>
+            <td><a class="update" class="text-decoration-none text-dark font-weight-bold" data-name='{{i.name}}' data-email='{{i.email}}' data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatemodel" id="btnupdate"><i class="fa fa-pencil p-1" aria-hidden="true"></i></a></td>
+            <td><a class="text-decoration-none text-dark font-weight-bold" href="/dashboard/delete/{{i.id}}"><i class="fa fa-trash-o p-1" aria-hidden="true"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>
@@ -37,7 +37,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/Dashboard/update/" method="post" class="row g-3 needs-validation" novalidate>
+            <form action="/dashboard/update/" method="post" class="row g-3 needs-validation" novalidate>
                 {% csrf_token %}
                 <input type="hidden" id="validationCustomid" value="" name="memberid">
                 <div class="col-md-12">

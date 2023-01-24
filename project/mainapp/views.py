@@ -27,6 +27,3 @@ def user_logout(request):
     logout(request)
     messages.success(request,"Logout Sucess!")
     return redirect('/login/')
-
-def NotFound(request):
-    return render(request,"404.html")
