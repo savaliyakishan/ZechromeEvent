@@ -1,0 +1,36 @@
+body {
+    background-color: #e0eff3;
+    font-family: 'Caramel', cursive;
+    font-family: 'Open Sans', sans-serif;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.back-theme {
+    background-color: rgba(221, 193, 193, 0.13);
+    margin-top: 200px;
+    backdrop-filter: blur(30px);
+}
+
+a {
+    text-decoration: none !important;
+    color: #000 !important;
+}
+
+a:hover {
+    text-decoration: none !important;
+    color: #003379 !important;
+}
+
+.active {
+    color: #003379 !important;
+}
+
+.nav-link a {
+    color: rgb(95, 84, 84) !important;
+}
+
+
+.container h1,h3,h4,h5,h6{
+    color: #003379 !important;
+    background-color: #B5D5C5 !important;
+}

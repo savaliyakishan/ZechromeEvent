@@ -1,13 +1,13 @@
 {% extends './base.html' %}
 
 {% block start %}
+<div class="container rounded mt-3">
+  <h1 class="text-center rounded p-2">History Selected Employees</h1>
+</div>
 
-<button class="btn btn-danger" id="Historyclear">clear History</button>
+<div class="container">
 
-<br>
-<h2 class="text-center">History Selected Member</h2>
-<br>
-<table class="table table-bordered border-primary">
+  <table id="example" class="table table-striped" style="width: 100%;">
     <thead>
       <tr>
         <th scope="col">Date</th>
@@ -17,30 +17,15 @@
       </tr>
     </thead>
     <tbody>
-        {% for i in historydata %}
-        <tr>
-            <td>{{i.seminarDate}}</td>
-            <td>{{i.memberName}}</td>
-            <td>{{i.memberEmail}}</td>
-            <td>{{i.topicName}}</td>
-        </tr>
-        {% endfor %}
+      {% for i in historydata %}
+      <tr>
+        <td>{{i.seminarDate}}</td>
+        <td>{{i.memberName}}</td>
+        <td>{{i.memberEmail}}</td>
+        <td>{{i.topicName}}</td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
-
-  <script>
-    document.getElementById('Historyclear').addEventListener('click', function () {
-      Swal.fire({
-          icon: 'info',
-          title: 'Oops...',
-          text: 'Please Confirm To History Clear....'
-      }).then(okay => {
-        if (okay['isConfirmed']) {
-          window.location.href = "/dashboard/history/clearall/";
-        }else{
-          window.location.href = "";
-        }
-      });
-  });
-  </script>
+</div>
 {% endblock %}

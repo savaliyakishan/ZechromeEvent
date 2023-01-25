@@ -1,109 +1,123 @@
 {% extends './base.html' %}
 
 {% block start %}
-
-<button type="button" class="btn btn-primary" >
-  <a href="/dashboard/deletedmember/" class="text-light">Deleted Member</a>
-</button>
-
-<button class="btn btn-danger" id="errorAlert">clear All Data</button>
-
-<br>
-<h2 class="text-center">Selected Member</h2>
-<br>
-<button type="button" class="btn btn-primary" >
-  <a href="/dashboard/choose/" class="text-light">Select Member</a>
-</button>
-<div class="container">
-    <table style="width: 100%; boreder:2px solid">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>SeminarDate</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Topic</th>
-                <th>Topic Update</th>
-                <th>Delete</th>
-                <th>Done</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if selectedMember %}
-                {% for i in selectedMember %}
-                    <tr>
-                      <td>{{forloop.counter}}</td>
-                      <td>{{ i.seminarDate }}</td>
-                        <td>{{ i.memberId.name }}</td>
-                        <td>{{ i.memberId.email }}</td>
-                        <td>{% if i.topicName == None %}<a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd">Add Topic</a>{% else %} {{ i.topicName }} {% endif %}</td>
-                        <td>{% if i.topicName != None %}<a data-id='{{i.id}}' data-topic='{{i.topicName}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd">Update Topic</a>{% else %} - {% endif %}</td>
-                        <td><a href="/dashboard/selectedmember/delete/{{ i.id }}">Delete</a></td>
-                        <td>{% if i.topicName != None %}<a href="/dashboard/selectedmember/done/{{ i.id }}" class="btntopicadd">Done</a>{% else %} - {% endif %}</a></td>
-                    </tr>
-                {% endfor %}
-            {% endif %}
-        </tbody>
-    </table>
+<div class="container rounded mt-3">
+  <h1 class="text-center rounded p-2">Selected Employee</h1>
 </div>
-    <div class="modal fade" id="Addtopicmodel" tabindex="-1" aria-labelledby="Addtopicmodel"  aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="Addtopicmodelhead">Add Topic</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="" method="post" class="row g-3 needs-validation" novalidate>
-                    {% csrf_token %}
-                    <input type="hidden" id="validationCustomid" value="" name="selectedmemberid">
-                    <div class="col-md-12">
-                      <label for="validationCustomTopicName" class="form-label">Topic Name</label>
-                      <div class="input-group has-validation">
-                        <input type="text" class="form-control" id="validationCustomTopicName" aria-describedby="inputGroupPrepend" value="" required name="topicName">
-                        <div class="invalid-feedback">
-                          Please Enter a TopicName.
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <button class="btn btn-primary" id="submitbtn" type="submit">Add Topic</button>
-                    </div>
-                  </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-        <script>
-          $('.btntopicadd').click(function() {
-            $('#validationCustomid').val($(this).attr("data-id"))
-            $('#validationCustomTopicName').val($(this).attr("data-topic"))
-            if ($(this).attr("data-topic")) {
-              $('#Addtopicmodelhead').html("Update Topic")
-              $('#submitbtn').html("Update Topic")
-            }else{
-              $('#Addtopicmodelhead').html("Add Topic")
-              $('#submitbtn').html("Add Topic")
-            }
-          });
-          
-        </script>
+<div class="container mb-3">
+  <div class="row d-flex text-center mb-1 p-2">
+    <div class="col-1 bg-secondary text-white">
+      No
     </div>
-    <script>
-      document.getElementById('errorAlert').addEventListener('click', function () {
-        Swal.fire({
-            icon: 'info',
-            title: 'Oops...',
-            text: 'All Data Remove Please Confirmed..'
-        }).then(okay => {
-          if (okay['isConfirmed']) {
-            window.location.href = "/dashboard/selectedmember/clearall/";
-          }else{
-            window.location.href = "";
-          }
-        });
-    });
-    </script>
-{% endblock  %}
+    <div class="col-2 bg-secondary text-white">
+      Name
+    </div>
+    <div class="col-2 bg-secondary text-white">
+      Email
+    </div>
+    <div class="col-2 bg-secondary text-white">
+      Topic
+    </div>
+    <div class="col-1 bg-secondary text-white">
+      Update
+    </div>
+    <div class="col-2 bg-secondary text-white">
+      SeminarDate
+    </div>
+    <div class="col-1 bg-secondary text-white">
+      More
+    </div>
+    <div class="col-1 bg-secondary text-white">
+      Done
+    </div>
+
+  </div>
+  {% for i in selectedMember %}
+  <div class="row d-flex justify-content-center text-center mb-1 p-2">
+    <div class="col-1 border-bottom border-primary">
+      {{forloop.counter}}
+    </div>
+    <div class="col-2 border-bottom border-primary">
+      {{i.memberId.name}}
+    </div>
+    <div class="col-2 border-bottom border-primary">
+      {{i.memberId.email}}
+    </div>
+    <div class="col-2 border-bottom border-primary">
+      {% if i.topicName == None %}
+      <a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd text-danger"><i
+          class="fa fa-pencil" aria-hidden="true"></i></a>
+      {% else %}
+      <p class="text-success m-0" style="word-break: break-word;">
+        {{ i.topicName }}
+      </p>
+      {% endif %}
+    </div>
+    <div class="col-1 border-bottom border-primary">
+      {% if i.topicName != None %}<a data-id='{{i.id}}' data-topic='{{i.topicName}}' data-bs-toggle="modal"
+        data-bs-target="#Addtopicmodel" class="btntopicadd"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        {% else %}
+         -
+         {% endif %}
+    </div>
+    <div class="col-2 border-bottom border-primary">
+      {{ i.seminarDate }}
+    </div>
+    <div class="col-1 border-bottom border-primary">
+      <a data-delete-id="{{ i.id }}" class="selectedmemberdelete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+    </div>
+    <div class="col-1 border-bottom border-primary">
+      {% if i.topicName != None %}<a href="/dashboard/selectedmember/done/{{ i.id }}" class="text-">Completed</a>
+      {% else %}
+      -
+      {% endif %}</a>
+    </div>
+  </div>
+  {% endfor %}
+  <button type="button" class="btn btn-primary">
+    <a href="/dashboard/choose/" class="text-light">Select Employee</a>
+  </button>
+
+
+</div>
+
+
+
+<div class="container">
+
+
+  <div class="modal fade" id="Addtopicmodel" tabindex="-1" aria-labelledby="Addtopicmodel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <strong class="modal-title" id="Addtopicmodelhead">Add Topic</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" method="post" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+            <input type="hidden" id="validationCustomid" value="" name="selectedmemberid">
+            <div class="col-md-12">
+              <label for="validationCustomTopicName" class="form-label">Topic Name</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomTopicName"
+                  aria-describedby="inputGroupPrepend" value="" required name="topicName">
+                <div class="invalid-feedback">
+                  Please Enter a TopicName.
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button class="btn btn-primary" id="submitbtn" type="submit">Add Topic</button>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

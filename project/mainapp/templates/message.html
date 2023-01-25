@@ -1,0 +1,7 @@
+{% for message in messages %}
+<div class="container-fluid p-0 m-0" id="messageslist">
+    <div class="alert {{ message.tags }} alert-dismissible m-0" role="alert">
+        {{ message }}
+    </div>
+</div>
+{% endfor %}

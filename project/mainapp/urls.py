@@ -21,7 +21,6 @@ urlpatterns = [
     path('dashboard/selectedmember/delete/<int:id>',selectedmemberdelete,name="Dashboard-Deleted-Member"),
     path('dashboard/selectedmember/done/<int:id>',selectedmemberdone,name="Dashboard-Done-Member"),
          
-
     # Member Delete Urls
     path('dashboard/deletedmember/',deletedmemberview,name="Dashboard-Deleted-Member-View"),
     path('dashboard/deletedmember/clearAll/delete/',clearalldeletedata,name="Dashboard-Deleted-Member-Restore"),

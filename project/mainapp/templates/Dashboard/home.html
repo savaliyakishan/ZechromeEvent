@@ -1,62 +1,34 @@
 {% extends './base.html' %}
 
 {% block start %}
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Add Member
-  </button>
-<button type="button" class="btn btn-primary" >
-    <a href="/dashboard/view/" class="text-light">ViewMember</a>
-</button>
-<button type="button" class="btn btn-primary" >
-    <a href="/dashboard/selectedmember/view/" class="text-light">View Select Member</a>
-</button>
-<button type="button" class="btn btn-primary" >
-    <a href="/dashboard/history/" class="text-light">History</a>
-</button>
-  
-
-
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Member</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form action="/dashboard/ragister/" method="post" class="row g-3 needs-validation" novalidate>
-                {% csrf_token %}
-                <div class="col-md-12">
-                  <label for="validationCustomUsername" class="form-label">Username</label>
-                  <div class="input-group has-validation">
-                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required name="memberName">
-                    <div class="invalid-feedback">
-                      Please Enter a username.
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <label for="validationCustomEmail" class="form-label">Email</label>
-                  <div class="input-group has-validation">
-                    <input type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend" required name="memberEmail">
-                    <div class="invalid-feedback">
-                      Please Enter a Email.& Valid Email
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-12">
-                  <button class="btn btn-primary" type="submit">Add Member</button>
-                </div>
-              </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+{% load static %}
+<div class="container-fluid p-0">
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="height: 891px;">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+        aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-interval="20">
+        <img src="{% static 'img/1.jpg' %}" class="d-block w-100" alt="..." height="891px">
+      </div>
+      <div class="carousel-item" data-interval="20">
+        <img src="{% static 'img/2.jpg' %}" class="d-block w-100" alt="..." height="891px">
+      </div>
+      <div class="carousel-item" data-interval="20">
+        <img src="{% static 'img/3.jpg' %}" class="d-block w-100" alt="..." height="891px">
+      </div>
+      <div class="carousel-item" data-interval="20">
+        <img src="{% static 'img/4.jpg' %}" class="d-block w-100" alt="..." height="891px">
       </div>
     </div>
   </div>
+</div>
 
 {% endblock %}

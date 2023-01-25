@@ -1,82 +1,88 @@
 {% extends './base.html' %}
 {% block start %}
-<br>
-<h2 class="text-center">Member List</h2>
-<br>
+
+<div class="container rounded mt-3">
+  <h1 class="text-center rounded p-2">Employees</h1>
+</div>
 <div class="container">
   <table id="example" class="table table-striped" style="width: 100%;">
     <thead>
-        <th scope="col">No</th>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Selected Status</th>
-        <th>Update</th>
-        <th>Delete</th>
+      <th scope="col">No</th>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Selected Status</th>
+      <th>Update</th>
+      <th>Delete</th>
     </thead>
     <tbody>
-        {% for i in memberData %}
-        <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{i.id}}</td>
-            <td>{{i.name}}</td>
-            <td>{{i.email}}</td>
-            <td>{{i.selectedStatus}}</td>
-            <td><a class="update" class="text-decoration-none text-dark font-weight-bold" data-name='{{i.name}}' data-email='{{i.email}}' data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatemodel" id="btnupdate"><i class="fa fa-pencil p-1" aria-hidden="true"></i></a></td>
-            <td><a class="text-decoration-none text-dark font-weight-bold" href="/dashboard/delete/{{i.id}}"><i class="fa fa-trash-o p-1" aria-hidden="true"></i></a></td>
-        </tr>
-        {% endfor %}
+      {% for i in memberData %}
+      <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.id}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.email}}</td>
+        <td>
+          {% if i.selectedStatus == True %}
+          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+          {% else %}
+          <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+          {% endif %}
+        </td>
+        <td>
+          <a class="update" class="text-decoration-none text-dark font-weight-bold" data-name='{{i.name}}'
+            data-email='{{i.email}}' data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatemodel"
+            id="btnupdate"><i class="fa fa-pencil p-1" aria-hidden="true"></i></a>
+        </td>
+        <td>
+          <a class="text-decoration-none text-dark font-weight-bold employeedeleteData"  data-name='{{i.name}}' data-delete-id="{{i.id}}"><i
+              class="fa fa-trash-o p-1" aria-hidden="true"></i></a>
+        </td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
 
-  <div class="modal fade" id="Updatemodel" tabindex="-1" aria-labelledby="exampleModalLabel"  aria-hidden="true">
+
+  <!-- model Update Employee -->
+  <div class="modal fade" id="Updatemodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Member</h5>
+          <strong class="modal-title" id="exampleModalLabel">Update Employee</strong>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form action="/dashboard/update/" method="post" class="row g-3 needs-validation" novalidate>
-                {% csrf_token %}
-                <input type="hidden" id="validationCustomid" value="" name="memberid">
-                <div class="col-md-12">
-                  <label for="validationCustomUsername" class="form-label">Username</label>
-                  <div class="input-group has-validation">
-                    <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required name="memberName">
-                    <div class="invalid-feedback">
-                      Please Enter a username.
-                    </div>
-                  </div>
+          <form action="/dashboard/update/" method="post" class="row g-3 needs-validation" novalidate>
+            {% csrf_token %}
+            <input type="hidden" id="validationCustomid" value="" name="memberid">
+            <div class="col-md-12">
+              <label for="validationCustomUsername" class="form-label">Username</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" id="validationCustomUsername"
+                  aria-describedby="inputGroupPrepend" required name="memberName">
+                <div class="invalid-feedback">
+                  Please Enter a username.
                 </div>
-                <div class="col-md-12">
-                  <label for="validationCustomEmail" class="form-label">Email</label>
-                  <div class="input-group has-validation">
-                    <input type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend" required name="memberEmail">
-                    <div class="invalid-feedback">
-                      Please Enter a Email.& Valid Email
-                    </div>
-                  </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <label for="validationCustomEmail" class="form-label">Email</label>
+              <div class="input-group has-validation">
+                <input type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
+                  required name="memberEmail">
+                <div class="invalid-feedback">
+                  Please Enter a Email.& Valid Email
                 </div>
-                <div class="col-md-12">
-                  <button class="btn btn-primary" type="submit">update Member</button>
-                </div>
-              </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <button class="btn btn-primary" type="submit">update Employee</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<script>
-  $('.update').click(function() {
-   $('#validationCustomUsername').val($(this).attr("data-name"))
-   $('#validationCustomEmail').val($(this).attr("data-email"))
-   $('#validationCustomid').val($(this).attr("data-id"))
-  });
-    
-</script>
 {% endblock %}
