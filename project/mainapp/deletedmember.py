@@ -8,8 +8,6 @@ import calendar
 def deletedmemberview(request):
     if request.user.is_superuser == True:
         today = datetime.date.today()
-        next_date = today + \
-            datetime.timedelta((calendar.SATURDAY-today.weekday()) % 7)
         deletememberdata = DeleteSelectedMember.objects.all().order_by('dataTime')
         context = {
             "deleteMemberData": deletememberdata,
