@@ -51,7 +51,6 @@ $(document).ready(function () {
             title: "<strong>Project Restart..</strong>",
             html: `<input type="password" id="confirmpassword" placeholder="Enter Conform Password" class="form-control">`,
             text: "All Data Remove Please Confirmed..",
-            showCloseButton: true,
             showCancelButton: true,
             focusConfirm: false,
         }).then((okay) => {

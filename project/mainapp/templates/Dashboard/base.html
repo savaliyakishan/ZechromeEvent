@@ -17,6 +17,14 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <style>
+
+    </style>
 </head>
 
 <body class="body-theme">
@@ -67,7 +75,8 @@
                                         href="/dashboard/selectedmember/view/">Select Participants For Event</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item hover-color" aria-current="page" href="/dashboard/deletedmember/">Restore Participant</a>
+                                    <a class="dropdown-item hover-color" aria-current="page"
+                                        href="/dashboard/deletedmember/">Restore Participant</a>
                                 </li>
                             </ul>
                         </li>
@@ -83,7 +92,8 @@
                                         href="/dashboard/history/">Show History</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item hover-color" id="deleteData">Clear All Deleted Participants</a>
+                                    <a class="dropdown-item hover-color" id="deleteData">Clear All Deleted
+                                        Participants</a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item hover-color" id="restart">Restart Project</a>
@@ -103,7 +113,19 @@
 
     {% block start %}
     {% endblock %}
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="container-fluit fixed-bottom" style="background-color: #052a5085;">
+        <div class="container">
+            <div class="row m-3">
+                <div class="col-12 text-center">
+                    <p class="m-0" style="color:#f1cccd !important;">Copyright @ 2023 All Rights Reserved. Powered By -
+                        <span class="text-danger">@</span>Python Devloper</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        style="background: rgba(141, 145, 150, 0.24);
+            backdrop-filter: blur(2px);">
         <div class="modal-dialog">
             <div class="modal-content" style="background: rgba(118, 168, 230, 0.24);
             backdrop-filter: blur(12px);">
@@ -116,7 +138,8 @@
                     <form action="/dashboard/ragister/" method="post" class="row g-3 needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="col-md-12">
-                            <label for="validationCustomUsername" class="form-label text-light">Employee Name</label>
+                            <label for="validationCustomUsername" class="form-label text-light">Employee
+                                Name</label>
                             <div class="input-group has-validation">
                                 <input type="text" class="form-control text-dark" id="validationCustomUsername"
                                     aria-describedby="inputGroupPrepend" required name="memberName">
