@@ -2,83 +2,89 @@
 
 {% block start %}
 <div class="container rounded mt-3">
-  <h1 class="text-center rounded p-2">Selected Employee</h1>
+  <h1 class="text-center rounded p-2">Selected Participants</h1>
 </div>
 <div class="container mb-3">
   <div class="row d-flex text-center mb-1 p-2">
-    <div class="col-1 bg-secondary text-white">
+    <div class="col-1 text-white" style="background-color: #0f4a7ead !important;">
       No
     </div>
-    <div class="col-2 bg-secondary text-white">
+    <div class="col-2 text-white" style="background-color: #0f4a7ead !important;">
       Name
     </div>
-    <div class="col-2 bg-secondary text-white">
+    <div class="col-2 text-white" style="background-color: #0f4a7ead !important;">
       Email
     </div>
-    <div class="col-2 bg-secondary text-white">
+    <div class="col-2 text-white" style="background-color: #0f4a7ead !important;">
       Topic
     </div>
-    <div class="col-1 bg-secondary text-white">
+    <div class="col-1 text-white" style="background-color: #0f4a7ead !important;">
       Update
     </div>
-    <div class="col-2 bg-secondary text-white">
+    <div class="col-2 text-white" style="background-color: #0f4a7ead !important;">
       SeminarDate
     </div>
-    <div class="col-1 bg-secondary text-white">
+    <div class="col-1 text-white" style="background-color: #0f4a7ead !important;">
       More
     </div>
-    <div class="col-1 bg-secondary text-white">
+    <div class="col-1 text-white" style="background-color: #0f4a7ead !important;">
       Done
     </div>
 
   </div>
   {% for i in selectedMember %}
   <div class="row d-flex justify-content-center text-center mb-1 p-2">
-    <div class="col-1 border-bottom border-primary">
+    <div class="col-1 border-bottom border-primary text-white">
       {{forloop.counter}}
     </div>
-    <div class="col-2 border-bottom border-primary">
+    <div class="col-2 border-bottom border-primary text-white">
       {{i.memberId.name}}
     </div>
-    <div class="col-2 border-bottom border-primary">
+    <div class="col-2 border-bottom border-primary text-white">
       {{i.memberId.email}}
     </div>
-    <div class="col-2 border-bottom border-primary">
+    <div class="col-2 border-bottom border-primary text-white">
       {% if i.topicName == None %}
-      <a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd text-danger"><i
-          class="fa fa-pencil" aria-hidden="true"></i></a>
+      <a data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Addtopicmodel" class="btntopicadd"><i
+          class="fa fa-pencil text-danger" aria-hidden="true"></i></a>
       {% else %}
       <p class="text-success m-0" style="word-break: break-word;">
         {{ i.topicName }}
       </p>
       {% endif %}
     </div>
-    <div class="col-1 border-bottom border-primary">
+    <div class="col-1 border-bottom border-primary text-white">
       {% if i.topicName != None %}<a data-id='{{i.id}}' data-topic='{{i.topicName}}' data-bs-toggle="modal"
-        data-bs-target="#Addtopicmodel" class="btntopicadd"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-        {% else %}
-         -
-         {% endif %}
+        data-bs-target="#Addtopicmodel" class="btntopicadd"><i class="fa fa-pencil text-success"
+          aria-hidden="true"></i></a>
+      {% else %}
+      -
+      {% endif %}
     </div>
-    <div class="col-2 border-bottom border-primary">
-      {{ i.seminarDate }}
+    <div class="col-2 border-bottom border-primary text-white">
+      {{ i.seminarDate|date:"d M, Y" }}
     </div>
-    <div class="col-1 border-bottom border-primary">
-      <a data-delete-id="{{ i.id }}" class="selectedmemberdelete"><i class="fa fa-trash" aria-hidden="true"></i></a>
+    <div class="col-1 border-bottom border-primary text-white">
+      <a data-delete-id="{{ i.id }}" data-delete-Name="{{i.memberId.name}}" class="selectedmemberdelete"><i class="fa fa-trash text-danger"
+          aria-hidden="true"></i></a>
     </div>
-    <div class="col-1 border-bottom border-primary">
-      {% if i.topicName != None %}<a href="/dashboard/selectedmember/done/{{ i.id }}" class="text-">Completed</a>
+    <div class="col-1 border-bottom border-primary text-white">
+      {% if i.topicName != None %}<a href="/dashboard/selectedmember/done/{{ i.id }}" class="text-success">Completed</a>
       {% else %}
       -
       {% endif %}</a>
     </div>
   </div>
+
+
   {% endfor %}
-  <button type="button" class="btn btn-primary">
-    <a href="/dashboard/choose/" class="text-light">Select Employee</a>
-  </button>
-
-
+</div>
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-3 text-center">
+      <a href="/dashboard/choose/" class="text-light btn btn-primary col-12">Select Employee</a>
+    </div>
+  </div>
 </div>
 
 
@@ -88,17 +94,18 @@
 
   <div class="modal fade" id="Addtopicmodel" tabindex="-1" aria-labelledby="Addtopicmodel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content" style="background: rgba(118, 168, 230, 0.24);
+      backdrop-filter: blur(12px);">
         <div class="modal-header">
-          <strong class="modal-title" id="Addtopicmodelhead">Add Topic</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <strong class="modal-title text-light" id="Addtopicmodelhead">Add Topic</strong>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form action="" method="post" class="row g-3 needs-validation" novalidate>
             {% csrf_token %}
             <input type="hidden" id="validationCustomid" value="" name="selectedmemberid">
             <div class="col-md-12">
-              <label for="validationCustomTopicName" class="form-label">Topic Name</label>
+              <label for="validationCustomTopicName" class="form-label text-light">Topic Name</label>
               <div class="input-group has-validation">
                 <input type="text" class="form-control" id="validationCustomTopicName"
                   aria-describedby="inputGroupPrepend" value="" required name="topicName">
@@ -108,16 +115,42 @@
               </div>
             </div>
             <div class="col-md-12">
-              <button class="btn btn-primary" id="submitbtn" type="submit">Add Topic</button>
+              <button class="btn btn-primary text-white" id="submitbtn" type="submit">Add Topic</button>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary text-white" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
+{% if day == "Saturday" %}
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-3 text-center">
+      <button class="text-light btn btn-primary col-12" id="TodayRandomEmployee">
+        Select Session Employee
+      </button>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="row d-flex justify-content-center">
+    <div class="col-6 text-center" style="background: rgba(118, 168, 230, 0.24);
+    backdrop-filter: blur(12px); border-radius: 10px;">
+      <div class="row">
+        <div class="col-6">
+          <span class="text-white p-3 d-block">The Session Employee Name</span>
+        </div>
+        <div class="col-6 d-flex align-items-center justify-content-center">
+          <h2 class="text-white" id="randomname"></h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{{username | json_script:"username"}}
 {% endblock %}

@@ -1,6 +1,5 @@
 
 
-
 (function () {
     'use strict'
 
@@ -28,7 +27,7 @@ $(document).ready(function () {
         $('#example,#example-Bed,#example-Staff-Pation').DataTable();
     });
 
-    // deletemember Data Clear
+    //   Data Clear
     document.getElementById('deleteData').addEventListener('click', function () {
         Swal.fire({
             icon: 'info',
@@ -45,17 +44,26 @@ $(document).ready(function () {
         });
     });
 
-    // Project Restart 
-    document.getElementById('restart').addEventListener('click', function () {
+    // Project Restart
+    document.getElementById("restart").addEventListener("click", function () {
         Swal.fire({
-            icon: 'info',
-            title: '<strong>Oops...</strong>',
-            text: 'All Data Remove Please Confirmed..',
+            icon: "info",
+            title: "<strong>Project Restart..</strong>",
+            html: `<input type="password" id="confirmpassword" placeholder="Enter Conform Password" class="form-control">`,
+            text: "All Data Remove Please Confirmed..",
+            showCloseButton: true,
             showCancelButton: true,
-
-        }).then(okay => {
-            if (okay['isConfirmed']) {
-                window.location.href = "/dashboard/selectedmember/clearall/";
+            focusConfirm: false,
+        }).then((okay) => {
+            console.log(okay);
+            if (okay["isConfirmed"]) {
+                if (password == "") {
+                    alert("Enter Password");
+                } else {
+                    var password = $("#confirmpassword").val();
+                    $("#confirmpasswordsend").val(password);
+                    $("#conformForm").submit();
+                }
             } else {
                 window.location.href = "";
             }
@@ -93,7 +101,7 @@ $(document).ready(function () {
         Swal.fire({
             icon: 'info',
             title: '<strong style="background-color:None;">Oops...</strong>',
-            text: `Can You Sure Delete Data For Name : ${Name}`,
+            text: `Are You Sure Delete Data For Name : ${Name}`,
             showCancelButton: true,
 
         }).then(okay => {
@@ -122,10 +130,11 @@ $(document).ready(function () {
 
     $('.selectedmemberdelete').click(function () {
         var id = $(this).attr("data-delete-id")
+        var Name = $(this).attr("data-delete-Name")
         Swal.fire({
             icon: 'info',
             title: '<strong>Oops...</strong>',
-            text: `Can You Sure Delete Data For Id No:${id}`,
+            text: `Are You Sure Delete Data For Name : ${Name}`,
             showCancelButton: true,
 
         }).then(okay => {
@@ -146,7 +155,7 @@ $(document).ready(function () {
         Swal.fire({
             icon: 'info',
             title: '<strong>Oops...</strong>',
-            text: `Can You Sure Restore Data For Name Is :${Name}`,
+            text: `Are You Sure Restore Data For Name Is :${Name}`,
             showCancelButton: true,
 
         }).then(okay => {
@@ -158,5 +167,32 @@ $(document).ready(function () {
         });
     });
 
+
+    // rendom Selected Member Show
+    $('#TodayRandomEmployee').click(function () {
+        const username = JSON.parse(document.getElementById('username').textContent)
+        const randomIndex = Math.floor(Math.random() * username.length);
+        const item = username[randomIndex];
+        document.getElementById("randomname").innerHTML = item
+
+
+        // array.push(Data);
+        // const selectedMemberObj = JSON.parse(document.getElementById('selectedMemberObj').textContent)
+        // var array = []
+
+
+        // console.log(array)
+        // console.log(selectedMemberObj)
+        // function random_item(items) {
+        //     return items[Math.floor(Math.random() * items.length)];
+        // }
+        // var items = [254, 45, 212, 365, 2543];
+        // console.log(random_item(items));
+    })
+
 });
+
+
+
+
 

@@ -2,30 +2,32 @@
 
 {% block start %}
 <div class="container rounded mt-3">
-  <h1 class="text-center rounded p-2">Deleted Employees</h1>
+  <h1 class="text-center rounded p-2">Deleted Participants</h1>
 </div>
 <div class="container">
-  <table id="example" class="table table-striped" style="width: 100%;">
+  <table id="example" class="table table-striped" style="width: 100%;border-bottom: 1px solid #0d6efd;">
     <thead>
       <tr>
-        <th>No</th>
-        <th>Deleted Date-Time</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Topic</th>
-        <th>Restore</th>
+        <th class="text-white">No</th>
+        <th class="text-white">Deleted Date-Time</th>
+        <th class="text-white">Name</th>
+        <th class="text-white">Email</th>
+        <th class="text-white">Topic</th>
+        <th class="text-white">Restore</th>
       </tr>
     </thead>
     <tbody>
       {% if deleteMemberData %}
       {% for i in deleteMemberData %}
       <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{ i.dataTime }}</td>
-        <td>{{ i.deletedMemberObj.memberId.name }}</td>
-        <td>{{ i.deletedMemberObj.memberId.email }}</td>
-        <td>{{ i.deletedMemberObj.topicName }}</td>
-        <td><a class="deletedmemberdelete" data-Name="{{i.deletedMemberObj.memberId.name}}"
+        <td class="text-white">{{forloop.counter}}</td>
+        <td class="text-white">
+          {{i.dataTime|date:"d M, Y"}}<span class="text-light">,</span> {{i.dataTime|time:"h:i a"}}
+        </td>
+        <td class="text-white">{{ i.deletedMemberObj.memberId.name }}</td>
+        <td class="text-white">{{ i.deletedMemberObj.memberId.email }}</td>
+        <td class="text-white">{{ i.deletedMemberObj.topicName }}</td>
+        <td class="text-white"><a class="deletedmemberdelete text-success" data-Name="{{i.deletedMemberObj.memberId.name}}"
             data-deletemember="{{ i.deletedMemberObj.id}}" data-restore="{{ i.id }}">Restore</a>
         </td>
       </tr>

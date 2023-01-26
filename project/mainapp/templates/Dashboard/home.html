@@ -2,33 +2,11 @@
 
 {% block start %}
 {% load static %}
-<div class="container-fluid p-0">
-  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="height: 891px;">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-        aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-        aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
-        aria-label="Slide 4"></button>
-    </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active" data-interval="20">
-        <img src="{% static 'img/1.jpg' %}" class="d-block w-100" alt="..." height="891px">
-      </div>
-      <div class="carousel-item" data-interval="20">
-        <img src="{% static 'img/2.jpg' %}" class="d-block w-100" alt="..." height="891px">
-      </div>
-      <div class="carousel-item" data-interval="20">
-        <img src="{% static 'img/3.jpg' %}" class="d-block w-100" alt="..." height="891px">
-      </div>
-      <div class="carousel-item" data-interval="20">
-        <img src="{% static 'img/4.jpg' %}" class="d-block w-100" alt="..." height="891px">
-      </div>
-    </div>
-  </div>
+<div class="container-fluid p-0" style="height:800px;">
+    <img src="{% static 'img/istockphoto-869149488-612x612.jpg' %}" alt="" width="100%" height="882px" style="object-fit: cover;" >
+    <!-- <img src="https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?crop=entropy&cs=tinysrgb&[…]hbmRvbXx8fHx8fHx8fDE2NzQ1NTI3MjU&ixlib=rb-4.0.3&q=80&w=auto" alt="" width="100%" height="882px" style="object-fit: cover;" > -->
+    <!-- <img src="" alt="" width="100%" height="882px" style="object-fit: cover;" > -->
+
 </div>
 
 {% endblock %}

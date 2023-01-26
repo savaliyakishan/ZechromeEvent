@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import *
+from django.contrib.auth import authenticate
 import random,datetime,calendar
+from datetime import date
 
 def home(request):
     if request.user.is_superuser == True:
-        return render(request,'Dashboard/home.html')
+        
+        return render(request,'Dashboard/home.html',{"class" : "active"})
     else:
         messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')
@@ -23,7 +26,7 @@ def ragister(request):
                 messages.success(request,"Add Member Succeed.")
             except Exception as ex:
                 messages.error(request,f"{ex}")
-            return redirect('Dashboard-Home')
+            return redirect('Dashboard-view')
         return render(request,'Dashboard/home.html')
     else:
         messages.error(request,"Permission Denied,Login Required...")
@@ -33,7 +36,7 @@ def viewmember(request):
     if request.user.is_superuser == True:
         memberdata = MemberInfo.objects.all().order_by('id')
         contex={
-            'memberData':memberdata
+            'memberData':memberdata,
         }
         return render(request,'Dashboard/viewmember.html',contex)
     else:
@@ -119,9 +122,17 @@ def selectedmemberview(request):
         today = datetime.date.today()
         next_date = today + datetime.timedelta((calendar.SATURDAY-today.weekday()) % 7 )
         selectedmemberdata = SelectedMember.objects.filter(seminarDate=next_date,activeStatus='True').order_by('id')
+        user_name = []
+        curr_date = date.today()
+        day = calendar.day_name[curr_date.weekday()]
+        for i in selectedmemberdata:
+            user_name.append(i.memberId.name)
         context= {
                 "selectedMember":selectedmemberdata,
-            }
+                "username" : user_name,
+                "day" : day
+
+        }
         return render(request,'Dashboard/selectedmember.html',context)
     else:
         messages.error(request,"Permission Denied,Login Required...")
@@ -171,18 +182,27 @@ def selectedmemberdone(request,id=None):
     
 def restartprogram(request):
     if request.user.is_superuser == True:
-            selectedmemberobj = SelectedMember.objects.all()
-            memberobj = MemberInfo.objects.all()
-            if len(selectedmemberobj) > 0:
-                for i in selectedmemberobj:
-                    i.delete()
-                for j in memberobj:
-                    j.selectedStatus = False
-                    j.save()
-                return redirect('Dashboard-Selected-Member')
-            else:
-                messages.info(request,"No Record Found.")
-                return redirect('Dashboard-Home')
+            if request.method == "POST":
+                password = request.POST['checkpassword']
+                username = request.user.username
+                user=authenticate(username=username,password=password)
+                if user is not None:
+                    selectedmemberobj = SelectedMember.objects.all()
+                    memberobj = MemberInfo.objects.all()
+                    if len(selectedmemberobj) > 0:
+                        for i in selectedmemberobj:
+                            i.delete()
+                        for j in memberobj:
+                            j.selectedStatus = False
+                            j.save()
+                        messages.success(request,'Project Restart')
+                        return redirect('Dashboard-Home')
+                    else:
+                        messages.error(request,"No Record Found.")
+                        return redirect('Dashboard-Home')
+                else:
+                    messages.error(request,"Password Not Match..")
+                    return redirect('Dashboard-Home')
     else:
         messages.error(request,"Permission Denied,Login Required...")
         return redirect('Login')

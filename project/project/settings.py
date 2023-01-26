@@ -29,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 # ALLOWED_HOSTS = ["f84f-2405-201-200c-823f-4058-d-d201-dad2.in.ngrok.io"]
-CSRF_TRUSTED_ORIGINS = ['https://f84f-2405-201-200c-823f-4058-d-d201-dad2.in.ngrok.io']
+CSRF_TRUSTED_ORIGINS = [
+    'https://895c-2405-201-200c-823f-4199-e2a6-2d21-1087.in.ngrok.io']
 
 
 # Application definition
@@ -79,16 +80,16 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default':{
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'randomember',
-    'USER': 'postgres',
-    'PASSWORD': 'root',
-    'HOST': '127.0.0.1',
-    'PORT': '5432',
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'zechromesaturdaysession',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
-}
-# AUTH_USER_MODEL = 'mainapp.User'
+# zechromesaturdaysession
 
 
 # Password validation

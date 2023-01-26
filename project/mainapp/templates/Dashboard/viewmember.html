@@ -5,38 +5,36 @@
   <h1 class="text-center rounded p-2">Employees</h1>
 </div>
 <div class="container">
-  <table id="example" class="table table-striped" style="width: 100%;">
+  <table id="example" class="table table-striped" style="width: 100%;border-bottom: 1px solid #0d6efd;">
     <thead>
-      <th scope="col">No</th>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Selected Status</th>
-      <th>Update</th>
-      <th>Delete</th>
+      <th scope="col" class="text-light">No</th>
+      <th class="text-light">Name</th>
+      <th class="text-light">Email</th>
+      <th class="text-light">Selected Status</th>
+      <th class="text-light">Update</th>
+      <th class="text-light">Delete</th>
     </thead>
     <tbody>
       {% for i in memberData %}
       <tr>
-        <td>{{forloop.counter}}</td>
-        <td>{{i.id}}</td>
-        <td>{{i.name}}</td>
-        <td>{{i.email}}</td>
-        <td>
+        <td class="text-light">{{forloop.counter}}</td>
+        <td class="text-light">{{i.name}}</td>
+        <td class="text-light">{{i.email}}</td>
+        <td class="text-light">
           {% if i.selectedStatus == True %}
-          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i></span>
+          <span><i class="fa fa-check text-success" aria-hidden="true"></i></span>
           {% else %}
-          <span class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></span>
+          <span class=""><i class="fa fa-times text-danger" aria-hidden="true"></i></span>
           {% endif %}
         </td>
-        <td>
-          <a class="update" class="text-decoration-none text-dark font-weight-bold" data-name='{{i.name}}'
+        <td class="text-light">
+          <a class="update" class="text-decoration-none font-weight-bold" data-name='{{i.name}}'
             data-email='{{i.email}}' data-id='{{i.id}}' data-bs-toggle="modal" data-bs-target="#Updatemodel"
-            id="btnupdate"><i class="fa fa-pencil p-1" aria-hidden="true"></i></a>
+            id="btnupdate"><i class="fa fa-pencil p-1 text-light" aria-hidden="true"></i></a>
         </td>
-        <td>
-          <a class="text-decoration-none text-dark font-weight-bold employeedeleteData"  data-name='{{i.name}}' data-delete-id="{{i.id}}"><i
-              class="fa fa-trash-o p-1" aria-hidden="true"></i></a>
+        <td class="text-light">
+          <a class="text-decoration-none  font-weight-bold employeedeleteData"  data-name='{{i.name}}' data-delete-id="{{i.id}}"><i
+              class="fa fa-trash-o p-1 text-danger" aria-hidden="true"></i></a>
         </td>
       </tr>
       {% endfor %}
@@ -47,17 +45,18 @@
   <!-- model Update Employee -->
   <div class="modal fade" id="Updatemodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content" style="background: rgba(118, 168, 230, 0.24);
+      backdrop-filter: blur(12px);">
         <div class="modal-header">
-          <strong class="modal-title" id="exampleModalLabel">Update Employee</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <strong class="modal-title text-light" id="exampleModalLabel">Update Employee</strong>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form action="/dashboard/update/" method="post" class="row g-3 needs-validation" novalidate>
             {% csrf_token %}
             <input type="hidden" id="validationCustomid" value="" name="memberid">
             <div class="col-md-12">
-              <label for="validationCustomUsername" class="form-label">Username</label>
+              <label for="validationCustomUsername" class="form-label text-light">Username</label>
               <div class="input-group has-validation">
                 <input type="text" class="form-control" id="validationCustomUsername"
                   aria-describedby="inputGroupPrepend" required name="memberName">
@@ -67,7 +66,7 @@
               </div>
             </div>
             <div class="col-md-12">
-              <label for="validationCustomEmail" class="form-label">Email</label>
+              <label for="validationCustomEmail" class="form-label text-light" >Email</label>
               <div class="input-group has-validation">
                 <input type="email" class="form-control" id="validationCustomEmail" aria-describedby="inputGroupPrepend"
                   required name="memberEmail">
@@ -77,7 +76,7 @@
               </div>
             </div>
             <div class="col-md-12">
-              <button class="btn btn-primary" type="submit">update Employee</button>
+              <button class="btn btn-primary text-light" type="submit">update Employee</button>
             </div>
           </form>
         </div>

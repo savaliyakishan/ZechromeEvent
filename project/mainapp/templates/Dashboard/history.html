@@ -7,22 +7,22 @@
 
 <div class="container">
 
-  <table id="example" class="table table-striped" style="width: 100%;">
+  <table id="example" class="table table-striped" style="width: 100%; border-bottom: 1px solid #0d6efd;">
     <thead>
       <tr>
-        <th scope="col">Date</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">Topic</th>
+        <th scope="col" class="text-white">Date</th>
+        <th class="text-white">Name</th>
+        <th class="text-white">Email</th>
+        <th class="text-white">Topic</th>
       </tr>
     </thead>
     <tbody>
       {% for i in historydata %}
       <tr>
-        <td>{{i.seminarDate}}</td>
-        <td>{{i.memberName}}</td>
-        <td>{{i.memberEmail}}</td>
-        <td>{{i.topicName}}</td>
+        <td class="text-white">{{ i.seminarDate|date:"d M, Y" }}</td>
+        <td class="text-white">{{i.memberName}}</td>
+        <td class="text-white">{{i.memberEmail}}</td>
+        <td class="text-white">{{i.topicName}}</td>
       </tr>
       {% endfor %}
     </tbody>
