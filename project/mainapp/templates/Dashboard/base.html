@@ -19,7 +19,7 @@
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
 </head>
 
-<body>
+<body class="body-theme">
     <div class="container-fluit" style="background-color: #2e333852;">
         <nav class="navbar navbar-expand-lg navbar-ligh">
             <div class="container-fluid">
@@ -116,7 +116,7 @@
                     <form action="/dashboard/ragister/" method="post" class="row g-3 needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="col-md-12">
-                            <label for="validationCustomUsername" class="form-label text-light">Username</label>
+                            <label for="validationCustomUsername" class="form-label text-light">Employee Name</label>
                             <div class="input-group has-validation">
                                 <input type="text" class="form-control text-dark" id="validationCustomUsername"
                                     aria-describedby="inputGroupPrepend" required name="memberName">

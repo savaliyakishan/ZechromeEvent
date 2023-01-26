@@ -3,7 +3,7 @@
 }
 
 body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/static/img/istockphoto-869149488-612x612.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('/static/img/main-img.jpg');
     background-size: cover;
     font-family: 'Caramel', cursive;
     font-family: 'Open Sans', sans-serif;
